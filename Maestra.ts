@@ -38,11 +38,18 @@ function suma2(n1: number, n2?: number): number{
 
 let resultado2 = suma2(5)
 
+//Tenemos argumentos opcionales. Los argumentos opcionales siempre se especifican 
+//después de los obligatorios. Se especifica mediante un interrogante.
 
 
 
-//Tenemos argumentos opcionales. Los argumentos opcionalessiempre se especifican 
-//después de los obligatorios
+
+function crearUsuaurio (nombre: string, apellido:string):void{
+
+
+}
+
+//Funciones que no retornan ningun valor. 
 
 
 //POO
@@ -51,7 +58,8 @@ class Persona {
 
     name: string;
     age: number;
-    constructor(name, age) {
+    
+    constructor(name: string, age: number) {
 
         this.name = name;
         this.age = age;
@@ -90,7 +98,7 @@ persona.setAge(45);
 console.log(persona.getName());
 console.log(persona.getAge());
 
-Mismo código en Javascript sería de la siguiente manera:
+// Mismo código en Javascript sería de la siguiente manera:
 
 var Persona = (function () {
     function Persona(name, age) {
@@ -123,7 +131,7 @@ console.log(persona.getAge());
 
 
 
-TIPADO DE VARIABLES
+// TIPADO DE VARIABLES
 
 let number1: number;
 let number2: number;
@@ -160,7 +168,7 @@ deletrea(myString);
 
 
 
-MODIFICADORES DE ACCESO
+//MODIFICADORES DE ACCESO
 
 
 class Persona  {
@@ -297,7 +305,213 @@ Vemos como el msétodo estático se llama directamente desde la clase
 
 
 
-HERENCIA
+//HERENCIA
+
+//Ejemplo muy sencillo de herencia
+
+class Vehiculo {
+
+    numeroRuedas: number
+
+    constructor(numeroRuedas: number) {
+
+        this.numeroRuedas = numeroRuedas
+    }
+
+    start() {
+
+        console.log("Vehiculo arrancando")
+    }
+}
+
+class Avion extends Vehiculo {
+
+
+}
+
+let avion = new Avion(16)
+
+console.log(avion.start())
+
+
+//Sobreescritura de Métodos
+
+//Puede ser utilizado para extender las funcionalidades de la clase padre
+
+
+/*El constructor también puede ser sobreescrito. Si lo sobreescribimos iempre habrá 
+que llamar al constructor del padre*/
+
+class Vehiculo {
+
+    numeroRuedas: number
+
+    constructor(numeroRuedas: number) {
+
+        this.numeroRuedas = numeroRuedas
+    }
+
+    start() {
+
+        console.log("Vehiculo arrancando")
+    }
+}
+
+class Avion extends Vehiculo {
+
+    numeroPasajeros : number
+
+    constructor(numeroRuedas: number, numeroPasajeros:number){
+
+        super(numeroRuedas)
+
+        this.numeroPasajeros = numeroPasajeros
+    }
+
+    start() {
+
+        super.start()
+        console.log("Avion Despegando")
+    }
+}
+
+let avion = new Avion(16,32)
+
+console.log(avion.start())
+
+
+
+//Modificadores de acceso
+
+/*Hasta ahora implicitamente el modificador de acceso que estabamos utilizando 
+era public
+
+Esto quiere decir básicamente que podemos acceder a las propiedades desde las 
+clases heredadas o incluso desde fuera de la clase 
+
+Con protected podemos acceder desde las clases heredadas pero no fuera de la clase 
+
+Con private solo se puede acceder a ese atributo desde la clase pero no desde las 
+clases heredadas ni por supuesto fuera de la clase*/
+
+
+/*En programación modular, y más específicamente en programación orientada a objetos,
+se denomina ENCAPSULAMIENTO al ocultamiento del estado, es decir, de los datos 
+miembro de un objeto de manera que solo se pueda cambiar mediante las operaciones 
+definidas para ese objeto.
+
+Cada objeto está aislado del exterior, es un módulo natural, y la aplicación 
+entera se reduce a un agregado o rompecabezas de objetos. El aislamiento protege 
+a los datos asociados de un objeto contra su modificación por quien no tenga 
+derecho a acceder a ellos, eliminando efectos secundarios e interacciones.
+
+De esta forma el usuario de la clase puede obviar la implementación de los 
+métodos y propiedades para concentrarse solo en cómo usarlos. Por otro lado se 
+evita que el usuario pueda cambiar su estado de maneras imprevistas e incontroladas.*/
+
+
+class Vehiculo {
+
+    protected numeroRuedas: number
+
+    constructor(numeroRuedas: number) {
+
+        this.numeroRuedas = numeroRuedas
+    }
+
+    start() {
+
+        console.log("Vehiculo arrancando")
+    }
+}
+
+class Avion extends Vehiculo {
+
+    start() {
+
+        console.log(this.numeroRuedas)
+    }
+}
+
+let avion = new Avion(16)
+
+console.log(avion.start())
+
+console.log(avion.numeroRuedas) //Error La propiedad es protected solo accesible
+//desde la clase "Vehículo" y las subclases
+
+
+class Vehiculo {
+
+    private numeroRuedas: number
+
+    constructor(numeroRuedas: number) {
+
+        this.numeroRuedas = numeroRuedas
+    }
+
+    start() {
+
+        console.log("Vehiculo arrancando")
+    }
+}
+
+class Avion extends Vehiculo {
+
+    start() {
+
+        console.log(this.numeroRuedas)// Error Solo accesible desde la clase 
+        //"Vehiculo"
+    }
+}
+
+let avion = new Avion(16)
+
+console.log(avion.start())
+
+console.log(avion.numeroRuedas) //Error La propiedad es private solo accesible
+//desde la clase "Vehículo" 
+
+
+
+
+//Métodos Accesores
+
+class User{
+
+    private _name: string
+    private _email: string
+
+    constructor(name:string,email:string) {
+
+        this._name = name
+        this._email = email
+    }
+
+    get name(): string{ return this._name }
+
+    set name(name:string) {this._name = name}
+
+}
+
+let user = new User("Evaristo", 'evaristo@gmail.com')
+
+console.log(user.name)
+
+user.name = "Escolastico"
+
+console.log(user.name)
+
+//Parece que estemos accediendo directamente a los atributos de la clase
+//Estamos usando los métodos accesores que encapsulan la funcionalidad interna
+
+
+
+
+
+
+
+
 
 class Persona {
 
