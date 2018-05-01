@@ -52,6 +52,8 @@ function crearUsuaurio (nombre: string, apellido:string):void{
 //Funciones que no retornan ningun valor. 
 
 
+
+
 //POO
 
 class Persona {
@@ -127,179 +129,6 @@ persona.setAge(45);
 console.log(persona.getName());
 console.log(persona.getAge());
 
-
-
-
-
-// TIPADO DE VARIABLES
-
-let number1: number;
-let number2: number;
-
-number1 = 8;
-number2 = 9;
-
-let suma = function(numero1: number, numero2: number) : number { //Indicamos 
-	//que tipo de dato retrona la función
-
-    return numero1 + numero2;
-}
-
-console.log(suma(number1, number2));
-
-let myString: string;
-
-myString = "Hola que ase";
-
-var deletrea = function (myString: string) {
-
-    let i = 0;
-
-    while (i < myString.length) {
-
-        console.log(myString.charAt(i));
-        i++;
-    }
-}
-
-deletrea(myString);
-
-
-
-
-
-//MODIFICADORES DE ACCESO
-
-
-class Persona  {
-
-    private _name: string;
-    private _age: number;
-
-    constructor(name,age) {
-
-        this._name = name;
-        this._age = age;
-    }
-
-    get name() {
-
-        return this._name;
-    }
-
-    set name(name) {
-
-        this._name = name;
-    }
-}
-
-let persona = new Persona('Fedelicol', 47);
-
-console.log(persona.name);
-
-persona.name = 'Fedelicol';
-
-
-Han cambiado algunas cosas. Primero hemos definido las propiedades como "private"
-
-Ya no podemos acceder a ellas fuera de la clase.
-
-Para acceder lo vamos a a hacer mediante getters y setters
-
-
-Cambia la manera en como lo hubieramos definido.
-
-
-
-Por otra parte cambia también la sintáxis.
-
-persona.name como getters
-
-persona.name = "Fedelicol"
-
-
-Todavía hay una manera de ahorrar bastante código:
-
-
-class Persona  {
-
-   
-
-    constructor(private _name:string , private _age : number) {
-
-       
-    }
-
-    get name() {
-
-        return this._name;
-    }
-
-    set name(name) {
-
-        this._name = name;
-    }
-}
-
-let persona = new Persona('Fedelicol', 32);
-
-console.log(persona.name);
-
-persona.name = 'Fedelicol';
-
-
-
-
-PROPIEDADES Y MÉTODOS ESTÁTICOS
-
-Son los métodos que se ejecutan directamente de la clase.
-
-Los métodos estáticos se llaman desde la clase a diferencia de los otros que se 
-llaman desde el objeto.
-
-Un ejemplo sería este:
-
-Hacemos un metodo estático que devuelve el núsmero de personas que hemos creado
-
-class Persona {
-
-    constructor(private _name: string, private _age: number) {
-
-        Persona.numeroPersonas++;
-    }
-
-    static numeroPersonas: number = 0;
-
-    get name () {
-
-        return this._name;
-    }
-
-    set name(name) {
-
-        this._name = name; 
-    }
-
-    static personasExistentes() {
-
-        return Persona.numeroPersonas;
-    }
-
-}
-
-var persona = new Persona('Fedelicol', 47);
-
-console.log(persona.name);
-
-persona.name = "Fedelicol";
-
-var persona1 = new Persona('Leovigildo', 44);
-
-console.log(Persona.personasExistentes());
-
-
-
-Vemos como el msétodo estático se llama directamente desde la clase 
 
 
 
@@ -507,11 +336,93 @@ console.log(user.name)
 
 
 
+//Métodos y atributos estáticos
+
+class Vehiculo{
+
+    static material: string = "acero"
+
+    private tipoAcero : string
+
+    fabricaTipo(tipoAcero: string) {
+
+        this.tipoAcero = tipoAcero
+
+        console.log(`Construido vehiculo ${Vehiculo.material} de tipo ${this.tipoAcero}`)
+    }
+    
+}
+
+let vehiculo = new Vehiculo()
+
+let vehiculo1 = new Vehiculo()
+
+vehiculo.fabricaTipo("rapido")
+
+vehiculo.fabricaTipo("polimetalurgico")
 
 
+/*
+En este ejemplo nuestro vehiculos están construidos de aceros de diferentes tipos pero 
+siempre de acero
+
+Por lo tanto el "material" siempre va a ser el mismo para todos los objetos. 
+
+Es una información compartida por todos los objetos
+
+Sino utilizamos un atributo esstático, cada vez que creamos un objeto se creará una 
+variable repetida para todas las instancias que ocupará espacio innececesario en memoria
 
 
+Una manera eficiente de trabajar es hacerlas estáticas. Se les llama también atributos 
+de clase porque pertenecen más bien a la clase que al objeto
 
+
+Para acceder a la variable tal como se ve en el ejemplo se accede a ella mediante el 
+nombre de la clase en vez de "this"*/
+
+
+//También existen los métodos estáticos
+
+class Vehiculo{
+
+    static material: string = "acero"
+
+    static _numeroVehiculosConstruidos : number = 0
+
+    private tipoAcero: string
+
+    constructor() {
+
+        Vehiculo._numeroVehiculosConstruidos++
+    }
+
+    fabricaTipo(tipoAcero: string) {
+
+        this.tipoAcero = tipoAcero
+
+        console.log(`Construido vehiculo ${Vehiculo.material} de tipo ${this.tipoAcero}`)
+    }
+
+    static numeroVehiculosConstruidos() {
+
+        return Vehiculo._numeroVehiculosConstruidos
+    }
+    
+}
+
+let vehiculo = new Vehiculo()
+
+let vehiculo1 = new Vehiculo()
+
+vehiculo.fabricaTipo("rapido")
+
+vehiculo.fabricaTipo("polimetalurgico")
+
+console.log(Vehiculo.numeroVehiculosConstruidos())
+
+
+//Otro ejemplo:
 
 class Persona {
 
@@ -519,10 +430,6 @@ class Persona {
 
         Persona.numeroPersonas++;
     }
-
-    private ganancias: number = 20000;
-
-    private _impuestos: number = 30;
 
     static numeroPersonas: number = 0;
 
@@ -541,194 +448,398 @@ class Persona {
         return Persona.numeroPersonas;
     }
 
-    impuestos() {
-
-        return this.ganancias * 0.1;
-    }
-
-}
-
-class Trabajador extends Persona {
-
-    constructor(_name:string,_age:number,private _numeroTrabajos:number ) {
-
-        super(_name,_age);
-        
-        
-    }
-
-    private gananciasTrabajador :number = 60000
-
-    impuestos() {
-
-        return this.gananciasTrabajador * 0.3;
-    }
-
-    get numeroTrabajos() {
-
-        return this._numeroTrabajos;
-   } 
 }
 
 var persona = new Persona('Fedelicol', 47);
 
+console.log(persona.name);
+
+persona.name = "Fedelicol";
+
 var persona1 = new Persona('Leovigildo', 44);
-
-var trabajador = new Trabajador('Estratunio', 45,2);
-
-console.log(persona.impuestos());
-
-console.log(trabajador.impuestos());
-
-console.log(trabajador.name);
-
-
-
 
 console.log(Persona.personasExistentes());
 
 
-Lo primero que podemos observar es la manera de extender la clase que se hace 
-mediante el keyword extends
 
-Creamos un nuevo método en la clase Persona "impuestos"
-
-Vemos como en una clase heredada se puede realizar la sobreescritura de un método.
+//Interfaces
 
 
-Por otra parte hay que tener en cuenta que en la clase que hereda podemos definir un
+/*La interfaz provoca que sea necesario declarar todas las propiedades e 
+implementar todos los métodos a la hora de definir la clase. En resumen, 
+es como un contrato.
 
-nuevo constructor de esta manera.
+Pero además, TypeScript nos ofrece una aplicación adicional de las interfaces: 
+la creación de un nuevo tipo que podemos usar a lo largo de nuestro código.
 
-	constructor(_name:string,_age:number,private _numeroTrabajos:number ) {
+La interfaz se convierte en un nuevo tipo de dato.*/
 
-        super(_name,_age);
-        
-        
+
+interface ObjetoJuego {
+
+    x: number
+    y: number
+    height: number
+    width: number
+    
+}
+
+class Hero implements ObjetoJuego {
+
+    x: number 
+    y: number
+    height: number
+    width: number
+    
+
+}
+
+class Bullet implements ObjetoJuego {
+
+    x: number 
+    y: number
+    height: number
+    width: number
+    
+}
+
+class Vilian implements ObjetoJuego {
+
+    x: number 
+    y: number
+    height: number
+    width: number
+    
+}
+
+
+
+class Collision {
+
+    check(obj1: ObjetoJuego, obj2: ObjetoJuego) {
+
+        //Logica que checkea si ha habido una colisión
+
+        console.log("Ha habido una colision")
     }
+    
+}
+
+let hero : ObjetoJuego  = new Hero()
+let bullet : ObjetoJuego = new Bullet()
+let collision = new Collision()
+
+collision.check(hero, bullet)
 
 
-
-
-
-INTERFACES
-
+//Otro ejemplo en el que vemos claramente que la interfaz se ha convertido en un nuevo
+//tipo de dato
 
 interface Iperro{
 
-    readonly name: string,
-    raza: string
+    name: string
+    raza:string
+}
+
+class Persona{
+
+    nombre: string
+    perro:Iperro
+}
+
+let perro: Iperro = { name: "Toby", raza: "San Bernardo" }
+
+let persona = new Persona()
+
+persona.perro = perro
+
+console.log(persona.perro)
+
+
+/*Salida es la siguiente:
+
+
+Object
+    name:"Toby"
+    raza:"San Bernardo"
+    __proto__*/
+
+
+
+
+
+
+//Clases Abstractas
+
+
+//Namespaces
+
+
+//Tipos avanzados de datos
+
+
+//Union types
+
+/*Solventamos el problema de que en determinadas ocasiones una variable pueda contener 
+diferentes tipos de datos según nuestra conveniencia
+
+Esto puede ser útil en funciones en cuyos argumentos a veces queramos recibir un tipo 
+de dato u otro*/
+
+let age: number | string | boolean
+
+age = "Hola que ase"
+
+age = 43
+
+age = true
+
+console.log(age)
+
+
+
+//Type Guards
+
+function printAge(age: number | string) {
+
+    if (typeof age === 'number') {
+
+        console.log("Es un numero")
+    } else {
+
+        console.log("Es una cadena")
+    }
 }
 
 
-class Persona {
+printAge(8)
 
-    constructor(private _name: string, private _age: number) {
+printAge("2")
 
-        Persona.numeroPersonas++;
-    }
 
-    private ganancias: number = 20000;
 
-    private _impuestos: number = 30;
 
-    static numeroPersonas: number = 0;
 
-    get name () {
+//Decoradores
 
-        return this._name;
-    }
+/*Extender la funcionalidad de un componente sin modificarlo permanentemente
+En esencia vienen a ser una serie de metadatos adicionales que se pueden 
+añadir a clases, métodos, propiedades y parámetros para modificar su comportamiento.*/
 
-    set name(name) {
 
-        this._name = name; 
-    }
+//Decoradores de Clase
 
-    static personasExistentes() {
+/*En las clases los decorators solo reciben un parámetro, la clase sobre la que están 
+actuando, que tiparemos comoFunction o any.
 
-        return Persona.numeroPersonas;
-    }
+Un decorador de clase va a ser una función que recibe un solo parámetro. La clase que 
+está decorando*/
 
-    impuestos() {
 
-        return this.ganancias * 0.1;
-    }
+function Decorador(target: Function) {
+
+    console.log("Decorador se está ejecutando")
+
+    target.prototype.className = target.name
+    
+    Object.defineProperty(target.prototype, 'course', {value: () => "Angular 2"})
 
 }
 
-class Trabajador extends Persona {
 
-    constructor( _name: string, _age: number, private numeroEmpleos:number) {
 
-        super(_name,_age)
+
+@Decorador
+class Persona{
+
+    name: string
+    age: number
+
+    constructor(name, age) {
+
+        this.name = name
+        this.age = age
     }
+    
+}
 
-    private gananciasTrabajador: number = 60000;
+let persona = new Persona("Federico",43)
 
-    impuestos() {
+console.log(persona.course())
 
-        return this.gananciasTrabajador * 0.2;
-    }
+console.log(persona.className)
 
-    agregarPerro(perro:Iperro) {
 
-        console.log(perro);
+
+
+/*Añadimos una propiedad className que es el nombre de la clase. 
+
+Añadimos dinámicamente una función a nuestra clase Persona por medio de la función
+Object.defineProperty function,*/
+
+
+
+
+
+//Decoradores de Propiedades
+
+/*Esta vez se van a recibir dos parámetros en la función
+
+El segundo argumento siempre es una propiedad y es una cadena
+
+El primer argumento pasa  a ser el prototipo de la clase*/ 
+
+
+
+function Decorador(target: any,propertyName:string) {
+
+    console.log("Decorador se está ejecutando")
+    console.log(`Decorador se está aplicando en propiedad ${propertyName}`)
+
+    
+
+}
+
+class Persona{
+    @Decorador
+    name: string
+
+    age: number
+
+    constructor(name, age) {
+
+        this.name = name
+        this.age = age
     }
     
 }
 
 
 
-var persona = new Persona('fedelicol', 47);
+//Decoradores para métodos
 
-var persona1 = new Persona('Leovigildo', 44);
+/*Reciben tres argumentos:
 
-var trabajador = new Trabajador('Estratonio', 45,2);
+Primer argumento es el prototipo de la clase, segundo argumento es el nombre del 
+método y el tercer argumento es el PropertyDescriptor
 
-let Toby : Iperro = { name: "Toby", raza: "San Bernardo" }
+Tomemos el siguiente ejemplo para intentar explicar PropertyDescriptor*/
 
-trabajador.agregarPerro(Toby);
+//https://www.javascripture.com/PropertyDescriptor
 
-Toby.name = "Toby2"
+var x = { foo: 1 };
+Object.defineProperty(x, 'bar', { value: 2, 
+                                  writable: true,
+                                  enumerable: false,
+                                  configurable: true } );
 
-console.log(Toby); //Provoca un error. Hemos definido readonly
-
-
-console.log(Persona.personasExistentes());
-
-
-
-
-Definimos nuestra interfaz:
-
-
-interface Iperro{
-
-    readonly name: string,
-    raza: string
+// 'foo' is enumerable. 'bar' in not enumerable
+for (var propertyName in x) {
+  console.log(propertyName + ' is ' + x[propertyName]);
 }
 
-Definimos name de tipo readonly luego veremos su aplicación.
+//foo is 1
 
-Dentro de la clase trabajador agregamos un nuevo método
+//Mismo código pero en este caso enumerable true
 
-	agregarPerro(perro:Iperro) {
+var x = { foo: 1 };
+Object.defineProperty(x, 'bar', { value: 2, 
+                                  writable: true,
+                                  enumerable: true,
+                                  configurable: true } );
 
-        console.log(perro);
+// 'foo' is enumerable. 'bar' in not enumerable
+for (var propertyName in x) {
+  console.log(propertyName + ' is ' + x[propertyName]);
+}
+
+//foo is 1
+//bar is 1
+
+
+/*Vamos a usar un decorador para lanzar un mensaje cada vez que el método se manda a 
+llamar
+
+
+Básicamente lo que vamos a hacer es lo siguiente:
+
+
+Obtenemos la función. Creamos la nueva función. Reemplazamos el método en la clase*/ 
+
+
+function AuditDecorador(target: any,methodName:string, descriptor?:any ) {
+
+    console.log("Decorador se está ejecutando")
+
+    let originalFunction = target[methodName] //Obtenemos el método
+    let decoratedFunction = function () {
+
+        originalFunction() //Ejecutamos la función origimal
+        console.log(`El metodo ${methodName} ha sido ejecutado`)
     }
 
+    //Reemplazamos el método
 
-Abajo definimos lo siguiente:
+    descriptor.value = decoratedFunction
 
-let Toby : Iperro = { name: "Toby", raza: "San Bernardo" }
+    return descriptor
 
-trabajador.agregarPerro(Toby);
+}
+
+class Auditable{
+    
+    @AuditDecorador unMetodo() {
+
+        console.log("Soy un método a auditar")
+    }
+}
+
+let auditable = new Auditable()
+
+auditable.unMetodo()
 
 
-Si intentamos cambiar el nombre que lo hemos definido readonly nos dará un error
+/*Salida en consola 
+
+Decorador se está ejecutando
+Soy un método a auditar
+El metodo unMetodo ha sido ejecutado*/
+
+
+//Entorno de trabajo
+
+//https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
+/*Configuramos como queremos que se compilen nuestros archivos de Typescript
+
+tsconfig.json
 
 
 
+Colocamos todos nuestro archivos en una carpeta src 
 
 
 
+removeComments: Cualquier comentario es eliminado cuando pasamos a Javscript
+
+outDir: Directorio de salida
+
+noImplicitAny: Evita el declarar variables sin tipo
+
+sourceMap: Sirve para que navegador nos de mensajes de error más explícitos
+
+watch: El compilador se ejecuta pendiente de cualquier cambio y recompila
+
+rootDir: Se conserva la misma estructura de directorios en dist y src
+
+experimentalDecorators: Permite que existan decoradores en nuestra aplicación
+
+
+Compilación:
+
+Instalamos de manera global
+
+npm install tsc -g 
+
+
+#tsc*/
